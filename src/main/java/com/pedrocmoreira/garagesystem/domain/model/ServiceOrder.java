@@ -1,4 +1,71 @@
 package com.pedrocmoreira.garagesystem.domain.model;
 
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.engine.internal.Cascade;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "service_orders")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class ServiceOrder {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String number; //ex: OS-2024-00001
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vehicle_id", nullable = false)
+    private Vehicle vehicle;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    @Builder.Default
+    private StatusSO status = StatusSO;
+
+    @Column(nullable = false, precision = 12, scale = 2)
+    @Builder.Default
+    private BigDecimal totalValue = BigDecimal.ZERO;
+
+    @Column(columnDefinition = "TEXT")
+    private String observations;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private LocalDateTime created_at = LocalDateTime.now();
+
+    @Column
+    private LocalDateTime diagnosisStartDate;
+
+    @Column
+    private LocalDateTime executionStartDate;
+
+    @Column
+    private LocalDateTime completionDate;
+
+    @Column
+    private LocalDate deliveryDate;
+
+    @OneToMany(mappedBy = "serviceOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<ServiceItem> serviceItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "serviceOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<PartItem> partItems = new ArrayList<>();
+
+    public void nextStatus(StatusSO newStatus) {
+        this.status = this.
+    }
 }
