@@ -13,6 +13,10 @@ public class PartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_order_id", nullable = false)
+    private ServiceOrder serviceOrder;
+
     @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "part_id", nullable = false)
     private Part part;
@@ -25,5 +29,6 @@ public class PartItem {
 
     public BigDecimal getSubtotal(){
         return unitPriceApplied.multiply(BigDecimal.valueOf(quantity));
+
     }
 }

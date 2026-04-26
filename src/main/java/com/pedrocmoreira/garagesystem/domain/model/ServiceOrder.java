@@ -2,10 +2,8 @@ package com.pedrocmoreira.garagesystem.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.engine.internal.Cascade;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +30,7 @@ public class ServiceOrder {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     @Builder.Default
-    private StatusSO status = StatusSO;
+    private StatusSO status = StatusSO.RECEBIDA;
 
     @Column(nullable = false, precision = 12, scale = 2)
     @Builder.Default
@@ -55,7 +53,7 @@ public class ServiceOrder {
     private LocalDateTime completionDate;
 
     @Column
-    private LocalDate deliveryDate;
+    private LocalDateTime deliveryDate;
 
     @OneToMany(mappedBy = "serviceOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
@@ -65,7 +63,43 @@ public class ServiceOrder {
     @Builder.Default
     private List<PartItem> partItems = new ArrayList<>();
 
+    public void timestampRegister(StatusSO newStatus){
+        LocalDateTime now = LocalDateTime.now();
+        switch (newStatus){
+            case EM_DIAGNOSTICO -> this.diagnosisStartDate = now;
+            case EM_EXECUCAO -> this.executionStartDate = now;
+            case FINALIZADA -> this.completionDate = now;
+            case ENTREGUE -> this.deliveryDate = now;
+
+            default -> {}
+        }
+    }
+
     public void nextStatus(StatusSO newStatus) {
-        this.status = this.
+        this.status = this.getStatus().transitionTo(newStatus);
+        timestampRegister(newStatus);
+    }
+
+    public void recalculateTotal(){
+        BigDecimal servicesTotal = serviceItems.stream()
+                .map(ServiceItem::getSubtotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public void addItemService(ServiceItem item){
+        item.setServiceOrder(this);
+        this.serviceItems.add(item);
+        recalculateTotal();
+    }
+
+    public void addPartItem(PartItem item){
+        item.setServiceOrder(this);
+        this.partItems.add(item);
+        recalculateTotal();
+    }
+
+    public Long getExecutionTimeInMinutes(){
+        if(executionStartDate == null || completionDate == null) return null;
+        return java.time.Duration.between(executionStartDate, completionDate).toMinutes();
     }
 }
