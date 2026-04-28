@@ -32,7 +32,7 @@ public class Part {
     @PositiveOrZero
     @Column(nullable = false)
     @Builder.Default
-    private Integer stockQuantity;
+    private Integer stockQuantity = 0;
 
     @Column
     @Builder.Default
