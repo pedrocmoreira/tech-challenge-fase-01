@@ -10,11 +10,11 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class UserRepositoryImpl implements UserRepository {
+public class UserRepositoryImplement implements UserRepository {
     private final UserJpaRepository jpa;
 
-    @Override public User save(User user) {
-        return jpa.save(user);
+    @Override public void save(User user) {
+        jpa.save(user);
     }
 
     @Override
