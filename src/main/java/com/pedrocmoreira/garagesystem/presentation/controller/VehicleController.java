@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/veiculos")
+@RequestMapping("/api/vehicles")
 @RequiredArgsConstructor
 @Tag(name = "Veículos", description = "Gerenciamento de veículos")
 @SecurityRequirement(name = "bearerAuth")
@@ -36,8 +36,20 @@ public class VehicleController {
         return vehicleRepository.listAll().stream().map(this::toResponse).toList();
     }
 
+    @GetMapping("/plate/{plate}")
+    @Operation(summary = "Filtrar pela placa do Veículo")
+    public List<VehicleDTO.Response> filterByPlate(@PathVariable String plate){
+        return vehicleRepository.filterByPlate(plate).stream().map(this::toResponse).toList();
+    }
+
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar veículo por ID")
+    @Operation(summary = "Buscar veículo por Id")
+    public List<VehicleDTO.Response> listById(@PathVariable Long id) {
+        return vehicleRepository.filterById(id).stream().map(this::toResponse).toList();
+    }
+
+    @GetMapping("/customer/{customerId}")
+    @Operation(summary = "Buscar veículo por Cliente")
     public List<VehicleDTO.Response> listByCustomers(@PathVariable Long customerId) {
         return vehicleRepository.listByCustomer(customerId).stream().map(this::toResponse).toList();
     }
@@ -76,7 +88,7 @@ public class VehicleController {
         return toResponse(vehicleRepository.save(vehicle));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Remover veículo")
     public void delete(@PathVariable Long id) {

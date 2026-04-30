@@ -1,5 +1,6 @@
 package com.pedrocmoreira.garagesystem.presentation.dto;
 
+import com.pedrocmoreira.garagesystem.application.usecase.CreateServiceOrderUseCase;
 import com.pedrocmoreira.garagesystem.domain.model.StatusSO;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,12 +21,12 @@ public class ServiceOrderDTO {
         @NotNull Long customerId,
         @NotNull Long vehicleId,
         @NotNull List<Long> serviceIds,
-        List<PartItemResponse> parts,
+        List<PartItemRequest> parts,
         String observations
         ){}
 
     public record PartItemRequest (
-            @NotNull Long PartId,
+            @NotNull Long partId,
             @NotNull Integer quantity
             ){}
 

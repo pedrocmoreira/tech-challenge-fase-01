@@ -41,6 +41,7 @@ springdoc:
     path: /swagger-ui.html
     operationsSorter: method
   show-actuator: false
+  use-fqn: true
 
 logging:
   level:

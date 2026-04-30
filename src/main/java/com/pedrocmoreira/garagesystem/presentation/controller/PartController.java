@@ -34,6 +34,7 @@ public class PartController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar Peça por ID")
     public PartDTO.Response filterById(@PathVariable Long id){
         return partRepository.filterById(id).map(this::toResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Peça", id));
@@ -41,6 +42,7 @@ public class PartController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Cadastrar uma Peça/Insumo")
     public PartDTO.Response create(@Valid @RequestBody PartDTO.Request request){
         Part part = Part.builder()
                 .name(request.name())
@@ -54,6 +56,7 @@ public class PartController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Atualizar Peça/Insumo")
     public PartDTO.Response update(@PathVariable Long id, @Valid @RequestBody PartDTO.Request request){
         Part part = partRepository.filterById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Peça", id));
@@ -76,6 +79,7 @@ public class PartController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Excluir Peça/Insumo")
     public void delete(@PathVariable Long id){
         partRepository.filterById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Peça", id));
