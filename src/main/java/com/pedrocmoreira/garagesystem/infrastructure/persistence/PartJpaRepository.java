@@ -9,6 +9,6 @@ import java.util.List;
 public interface PartJpaRepository  extends JpaRepository<Part, Long> {
     List<Part> findByActiveTrue();
 
-    @Query("SELECT p FROM Peca p WHERE p.stockQuantity <= p.minStock AND p.active = true")
+    @Query("SELECT p FROM Part p WHERE p.stockQuantity <= p.minStock AND p.active = true")
     List<Part> findCriticStock();
 }

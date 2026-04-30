@@ -2,10 +2,13 @@ package com.pedrocmoreira.garagesystem.infrastructure.persistence;
 
 import com.pedrocmoreira.garagesystem.domain.model.Service;
 import com.pedrocmoreira.garagesystem.domain.repository.ServiceRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
+@Repository
+@RequiredArgsConstructor
 public class ServiceRepositoryImplement  implements ServiceRepository {
     private final ServiceJpaRepository jpa;
 

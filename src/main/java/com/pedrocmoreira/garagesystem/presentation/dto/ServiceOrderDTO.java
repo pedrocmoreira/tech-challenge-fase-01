@@ -1,8 +1,6 @@
 package com.pedrocmoreira.garagesystem.presentation.dto;
 
-import com.pedrocmoreira.garagesystem.domain.model.Customer;
 import com.pedrocmoreira.garagesystem.domain.model.StatusSO;
-import com.pedrocmoreira.garagesystem.domain.model.Vehicle;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
@@ -49,15 +47,27 @@ public class ServiceOrderDTO {
     public record  Response (
             Long id,
             String number,
+            StatusSO status,
             BigDecimal totalValue,
             String observations,
             LocalDateTime created_at,
-            LocalDateTime diagnosisStartDate,
+            LocalDateTime completionDate,
             LocalDateTime deliveryDate,
             Long executionTimeInMinutes,
-            Customer customer,
-            Vehicle vehicle,
+            CustomerResume customer,
+            VehicleResume vehicle,
             List<ServiceItemResponse> services,
             List <PartItemResponse> parts
     ){}
+
+    public record StatusResponse (
+            String number,
+            StatusSO status,
+            LocalDateTime created_at,
+            LocalDateTime completionDate
+    ){}
+
+    public record CustomerResume(Long id, String name, String document){}
+    public record VehicleResume(Long id, String plate, String Make, String model){}
+
 }
