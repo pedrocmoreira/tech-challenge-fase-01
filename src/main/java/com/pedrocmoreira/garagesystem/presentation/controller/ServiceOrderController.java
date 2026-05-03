@@ -1,11 +1,10 @@
 package com.pedrocmoreira.garagesystem.presentation.controller;
 
-import com.pedrocmoreira.garagesystem.application.usecase.CreateServiceOrderUseCase;
-import com.pedrocmoreira.garagesystem.application.usecase.LinkPartToServiceOrderUseCase;
-import com.pedrocmoreira.garagesystem.application.usecase.NextStatusServiceOrderUseCase;
+import com.pedrocmoreira.garagesystem.application.usecase.*;
 import com.pedrocmoreira.garagesystem.domain.exception.EntityNotFoundException;
 import com.pedrocmoreira.garagesystem.domain.model.Service;
 import com.pedrocmoreira.garagesystem.domain.model.ServiceOrder;
+import com.pedrocmoreira.garagesystem.domain.model.StatusSO;
 import com.pedrocmoreira.garagesystem.domain.repository.ServiceOrderRepository;
 import com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,6 +27,8 @@ public class ServiceOrderController {
     private final NextStatusServiceOrderUseCase nextStatusServiceOrderUseCase;
     private final LinkPartToServiceOrderUseCase linkPartToServiceOrderUseCase;
     private final ServiceOrderRepository serviceOrderRepository;
+    private final BudgetApproveUseCase budgetApproveUseCase;
+    private final AverageExecutionTimeUseCase averageExecutionTimeUseCase;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -58,6 +59,12 @@ public class ServiceOrderController {
         return serviceOrderRepository.filterById(id)
                 .map(this::toResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Ordem de serviço", id));
+    }
+
+    @GetMapping("/status/{status}")
+    @Operation(summary = "Listar OS por status")
+    public List<ServiceOrderDTO.Response> listbyStatus(@PathVariable StatusSO status) {
+        return serviceOrderRepository.listByStatus(status).stream().map(this::toResponse).toList();
     }
 
     @PostMapping("/{id}/parts")
@@ -96,4 +103,53 @@ public class ServiceOrderController {
                          serviceOrder.getVehicle().getMake(), serviceOrder.getVehicle().getModel()
                  ), services, parts);
     }
+
+    @PatchMapping("/{id}/start-diagnosis")
+    @Operation(summary = "Iniciar diagnóstico - RECEBIDA para EM_DAGNOSTICO")
+    public ServiceOrderDTO.Response startDiadnosis(@PathVariable Long id){
+        return toResponse(nextStatusServiceOrderUseCase.execute(id, StatusSO.EM_DIAGNOSTICO));
+    }
+
+    @PatchMapping("/{id}/send-budget")
+    @Operation(summary = "Enviar orçamento ao cliente - EM_DIAGNOSTICO para AGUARDANDO_APROVACAO")
+    public ServiceOrderDTO.Response sendBudget(@PathVariable Long id) {
+        return toResponse(nextStatusServiceOrderUseCase.execute(id, StatusSO.AGUARDANDO_APROVACAO));
+    }
+
+    @PatchMapping("/{id}/approve-budget")
+    @Operation(summary = "Cliente aprova o orçamento - AGUARDANDO_APROVACAO para EM_EXECUCAO")
+    public ServiceOrderDTO.Response approve_budget(@PathVariable Long id) {
+        return toResponse(budgetApproveUseCase.approve(id));
+    }
+
+    @PatchMapping("/{id}/refuse-budget")
+    @Operation(summary = "Cliente recusa o orçamento - AGUARDANDO_APROVACAO para CANCELADA")
+    public ServiceOrderDTO.Response refuse_budget(@PathVariable Long id) {
+        return toResponse(budgetApproveUseCase.refuse(id));
+    }
+
+    @PatchMapping("/{id}/complete")
+    @Operation(summary = "Registrar entrega do veículo - FINALIZADA para ENTREGUE")
+    public ServiceOrderDTO.Response complete(@PathVariable Long id) {
+        return toResponse(nextStatusServiceOrderUseCase.execute(id, StatusSO.FINALIZADA));
+    }
+
+    @PatchMapping("/{id}/deliver")
+    @Operation(summary = "Registrar entrega do veículo - FINALIZADA para ENTREGUE")
+    public ServiceOrderDTO.Response deliver(@PathVariable Long id){
+        return toResponse(nextStatusServiceOrderUseCase.execute(id, StatusSO.ENTREGUE));
+    }
+
+    @PatchMapping("/{id}/status")
+    @Operation(summary = "Avançar status manualmente (caso necessário)")
+    public ServiceOrderDTO.Response advanceStatus(@PathVariable Long id, @Valid @RequestBody ServiceOrderDTO.NextStatusRequest request) {
+        return toResponse(nextStatusServiceOrderUseCase.execute(id, request.newStatus()));
+    }
+
+    @GetMapping("/report/average-time")
+    @Operation(summary = "Tempo médio de execução dos serviços")
+    public AverageExecutionTimeUseCase.AverageTimeResult averageExecutionTime() {
+        return averageExecutionTimeUseCase.execute();
+    }
+
 }

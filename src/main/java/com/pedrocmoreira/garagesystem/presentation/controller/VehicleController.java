@@ -5,6 +5,7 @@ import com.pedrocmoreira.garagesystem.domain.model.Customer;
 import com.pedrocmoreira.garagesystem.domain.model.Vehicle;
 import com.pedrocmoreira.garagesystem.domain.repository.CustomerRepository;
 import com.pedrocmoreira.garagesystem.domain.repository.VehicleRepository;
+import com.pedrocmoreira.garagesystem.domain.service.PlateValidator;
 import com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -58,6 +59,12 @@ public class VehicleController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Cadastrar novo veículo")
     public VehicleDTO.Response create(@Valid @RequestBody VehicleDTO.Request request) {
+        if(!PlateValidator.isValid(request.plate())) {
+            throw new IllegalArgumentException("Placa inválida: " + request.plate()
+                    + ". Use o formato ABC1234 (antigo) ou ABC1D23 (Mercosul)."
+            );
+        }
+
         if(vehicleRepository.existsByPlate(request.plate())) {
             throw new IllegalArgumentException("Já existe um veículo com essa placa.");
         }

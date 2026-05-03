@@ -2,7 +2,9 @@ package com.pedrocmoreira.garagesystem.presentation.controller;
 
 import com.pedrocmoreira.garagesystem.domain.exception.EntityNotFoundException;
 import com.pedrocmoreira.garagesystem.domain.model.Customer;
+import com.pedrocmoreira.garagesystem.domain.model.Customer.DocumentType;
 import com.pedrocmoreira.garagesystem.domain.repository.CustomerRepository;
+import com.pedrocmoreira.garagesystem.domain.service.DocumentValidator;
 import com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -58,13 +60,17 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Cadastrar um novo cliente")
     public CustomerDTO.Response create(@Valid @RequestBody CustomerDTO.Request request){
+        if(!DocumentValidator.isValid(request.document())){
+            throw new IllegalArgumentException("CPF ou CNPJ inválido: " + request.document());
+        }
+
         if(customerRepository.existsByDocument(request.document())){
             throw new IllegalArgumentException("Já existe um cliente com esse documento.");
         }
 
         Customer customer = Customer.builder()
-                .document(request.document())
-                .documentType(request.documentType())
+                .document(request.document().replaceAll("\\D", ""))
+                .documentType(DocumentValidator.detectType(request.document()))
                 .name(request.name())
                 .phone(request.phone())
                 .email(request.email())
