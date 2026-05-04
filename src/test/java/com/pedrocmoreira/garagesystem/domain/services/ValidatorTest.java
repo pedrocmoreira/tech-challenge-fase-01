@@ -1,5 +1,6 @@
-package com.pedrocmoreira.garagesystem.domain.model;
+package com.pedrocmoreira.garagesystem.domain.services;
 
+import com.pedrocmoreira.garagesystem.domain.model.Customer;
 import com.pedrocmoreira.garagesystem.domain.service.CNPJValidator;
 import com.pedrocmoreira.garagesystem.domain.service.CPFValidator;
 import com.pedrocmoreira.garagesystem.domain.service.DocumentValidator;

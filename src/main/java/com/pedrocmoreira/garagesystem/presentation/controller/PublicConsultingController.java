@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/consulta")
+@RequestMapping("/api/consult")
 @RequiredArgsConstructor
 @Tag(name = "Consulta Pública", description = "Endpoints públicos = sem autenticação JWT")
 public class PublicConsultingController {
     private final PublicConsultingServiceOrderUseCase publicConsultingServiceOrderUseCase;
 
-    @GetMapping("/os/{number}")
+    @GetMapping("/service-order/{number}")
     @Operation(summary = "Consultar status da Ordem de serviço pelo número  (público, sem login necessário)")
     public ServiceOrderDTO.StatusResponse consultStatus(@PathVariable String number){
         ServiceOrder serviceOrder = publicConsultingServiceOrderUseCase.execute(number);

@@ -84,6 +84,12 @@ public class ServiceOrder {
         BigDecimal servicesTotal = serviceItems.stream()
                 .map(ServiceItem::getSubtotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal partsTotal = partItems.stream()
+                .map(PartItem::getSubtotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.totalValue = servicesTotal.add(partsTotal);
     }
 
     public void addItemService(ServiceItem item){
