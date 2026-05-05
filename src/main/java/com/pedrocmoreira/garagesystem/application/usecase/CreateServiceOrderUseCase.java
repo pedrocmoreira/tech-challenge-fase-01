@@ -74,7 +74,9 @@ public class CreateServiceOrderUseCase {
             }
         }
 
+        serviceOrder.recalculateTotal();
         return serviceOrderRepository.save(serviceOrder);
     }
 
 }
+/// TESTAR REFUSE está dando 403

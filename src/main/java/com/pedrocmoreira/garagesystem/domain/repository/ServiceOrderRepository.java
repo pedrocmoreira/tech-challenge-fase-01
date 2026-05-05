@@ -14,5 +14,4 @@ public interface ServiceOrderRepository {
     List<ServiceOrder> listByStatus(StatusSO statusSO);
     List<ServiceOrder> listByCustomer(Long customerId);
     String generateNextNumber();
-
 }

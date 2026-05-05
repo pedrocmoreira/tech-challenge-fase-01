@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Orçamento da Oficina</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f4f4f4; color: #333; }
+        .container { max-width: 600px; margin: 32px auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+        .header { background: #1a1a2e; padding: 28px 32px; }
+        .header h1 { color: #fff; font-size: 20px; font-weight: 600; }
+        .header p { color: #aaa; font-size: 13px; margin-top: 4px; }
+        .body { padding: 32px; }
+        .greeting { font-size: 16px; margin-bottom: 20px; }
+        .os-badge { display: inline-block; background: #f0f4ff; color: #3B5BDB; border: 1px solid #c5d0f5; border-radius: 6px; padding: 6px 14px; font-size: 13px; font-weight: 600; margin-bottom: 24px; }
+        .section-title { font-size: 13px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+        .info-item { background: #f8f9fa; border-radius: 6px; padding: 12px 14px; }
+        .info-item .label { font-size: 11px; color: #888; margin-bottom: 3px; }
+        .info-item .value { font-size: 14px; font-weight: 500; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 28px; }
+        table th { background: #f8f9fa; padding: 10px 12px; text-align: left; font-size: 12px; color: #666; font-weight: 600; }
+        table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+        table tr:last-child td { border-bottom: none; }
+        .total-row { background: #f0f4ff; }
+        .total-row td { font-weight: 700; font-size: 15px; color: #1a1a2e; padding: 14px 12px; }
+        .actions { display: flex; gap: 12px; margin: 28px 0; }
+        .btn { flex: 1; display: block; padding: 14px; border-radius: 8px; text-align: center; font-size: 15px; font-weight: 600; text-decoration: none; cursor: pointer; }
+        .btn-approve { background: #2F9E44; color: #fff; }
+        .btn-reject { background: #fff; color: #E03131; border: 2px solid #E03131; }
+        .obs-box { background: #fffbeb; border: 1px solid #f0c040; border-radius: 6px; padding: 14px; margin-bottom: 24px; font-size: 13px; }
+        .footer { background: #f8f9fa; padding: 20px 32px; font-size: 12px; color: #888; text-align: center; border-top: 1px solid #eee; }
+        .expiry { background: #fff5f5; border: 1px solid #ffc9c9; border-radius: 6px; padding: 12px 14px; font-size: 13px; color: #c92a2a; margin-bottom: 24px; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <h1>🔧 Garage System</h1>
+        <p>Sistema de Gestão de Oficina Mecânica</p>
+    </div>
+
+    <!-- Body -->
+    <div class="body">
+
+        <p class="greeting">Olá, <strong th:text="${customerName}">Cliente</strong>!</p>
+        <p style="margin-bottom:20px;font-size:14px;color:#555;">
+            Preparamos o orçamento para o serviço do seu veículo. Confira os detalhes abaixo e nos informe se deseja prosseguir.
+        </p>
+
+        <div class="os-badge" th:text="'OS: ' + ${orderServiceNumber}">OS: OS-2024-00001</div>
+
+        <!-- Informações do veículo -->
+        <div class="section-title">Veículo</div>
+        <div class="info-grid" style="margin-bottom:28px;">
+            <div class="info-item">
+                <div class="label">Placa</div>
+                <div class="value" th:text="${vehiclePlate}">ABC1234</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Modelo</div>
+                <div class="value" th:text="${vehicleMake}">Corolla</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Marca</div>
+                <div class="value" th:text="${vehicleModel}">Toyota</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Ano</div>
+                <div class="value" th:text="${vehicleYear}">2020</div>
+            </div>
+        </div>
+
+        <!-- Serviços -->
+        <div class="section-title">Serviços</div>
+        <table>
+            <thead>
+            <tr>
+                <th>Descrição</th>
+                <th style="text-align:right">Valor</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="service : ${services}">
+                <td th:text="${service.name}">Troca de óleo</td>
+                <td style="text-align:right" th:text="${'R$ ' + #numbers.formatDecimal(service.subtotal, 1, 'POINT', 2, 'COMMA')}">R$ 120,00</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Peças -->
+        <div class="section-title" th:if="${not #lists.isEmpty(parts)}">Peças e Insumos</div>
+        <table th:if="${not #lists.isEmpty(parts)}">
+            <thead>
+            <tr>
+                <th>Item</th>
+                <th style="text-align:center">Qtd</th>
+                <th style="text-align:right">Subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="part : ${parts}">
+                <td th:text="${part.name}">Filtro de óleo</td>
+                <td style="text-align:center" th:text="${part.quantity}">1</td>
+                <td style="text-align:right" th:text="${'R$ ' + #numbers.formatDecimal(part.subtotal, 1, 'POINT', 2, 'COMMA')}">R$ 45,90</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Total -->
+        <table>
+            <tbody>
+            <tr class="total-row">
+                <td>Total do Orçamento</td>
+                <td style="text-align:right" th:text="${'R$ ' + #numbers.formatDecimal(totalValue, 1, 'POINT', 2, 'COMMA')}">R$ 165,90</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Observações -->
+        <div class="obs-box" th:if="${observations != null and observations != ''}">
+            <strong>📝 Observações:</strong>
+            <p style="margin-top:6px" th:text="${observations}"></p>
+        </div>
+
+        <!-- Aviso de expiração -->
+        <div class="expiry">
+            ⚠️ Este orçamento é válido por <strong>48 horas</strong>. Após esse prazo, entre em contato com a oficina.
+        </div>
+
+        <!-- Botões de ação -->
+        <div class="section-title">Sua resposta</div>
+        <div class="actions">
+            <a class="btn btn-approve" th:href="${approveUrl}">Aprovar Orçamento</a>
+            <a class="btn btn-reject" th:href="${refuseUrl}">Recusar Orçamento</a>
+        </div>
+
+        <p style="font-size:12px;color:#888;margin-top:8px;">
+            Ao clicar em um dos botões acima, você será redirecionado para uma página de confirmação.
+        </p>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Garage System — Sistema de Gestão de Oficina Mecânica</p>
+        <p style="margin-top:4px;">Este é um e-mail automático. Por favor, não responda.</p>
+    </div>
+
+</div>
+</body>
+</html>

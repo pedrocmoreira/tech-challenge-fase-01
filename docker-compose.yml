@@ -17,6 +17,17 @@ services:
       timeout: 5s
       retries: 5
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    platform: linux/amd64
+    container_name: garage-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  #WEB UI -> http://localhost:8025
+    logging:
+      driver: none
+
   app:
     build: .
     container_name: garage-app
@@ -32,9 +43,17 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       ADMIN_USERNAME: ${ADMIN_USERNAME}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      MAIL_HOST: mailhog
+      MAIL_PORT: 1025
+      MAIL_USERNAME: ""
+      MAIL_PASSWORD: ""
+      MAIL_FROM: noreply@garagesystem.com
+      APP_BASE_URL: http://localhost:8080
     depends_on:
       db:
         condition: service_healthy
+      mailhog:
+        condition: service_started
 
 volumes:
   pgdata:

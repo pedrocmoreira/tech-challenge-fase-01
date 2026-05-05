@@ -22,18 +22,28 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
 
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
 server:
   port: 8080
   error:
     include-message: always
     include-binding-errors: always
 
-# JWT
 jwt:
   secret: ${JWT_SECRET:dakhsiduneuhisdpnaisd}
   expiration-ms: 86400000
 
-# Swagger / OpenAPI
 springdoc:
   api-docs:
     path: /v3/api-docs
@@ -47,3 +57,8 @@ logging:
   level:
     com.pedrocmoreira.garagesystem: DEBUG
     org.springframework.security: INFO
+
+app:
+  base-url: ${APP_BASE_URL:http://localhost:8080}
+  mail:
+    from: ${MAIL_FROM:noreply@garagesystem.com}

@@ -29,6 +29,7 @@ public class ServiceOrderController {
     private final ServiceOrderRepository serviceOrderRepository;
     private final BudgetApproveUseCase budgetApproveUseCase;
     private final AverageExecutionTimeUseCase averageExecutionTimeUseCase;
+    private final SendBudgetUseCase sendBudgetUseCase;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -113,20 +114,20 @@ public class ServiceOrderController {
     @PatchMapping("/{id}/send-budget")
     @Operation(summary = "Enviar orçamento ao cliente - EM_DIAGNOSTICO para AGUARDANDO_APROVACAO")
     public ServiceOrderDTO.Response sendBudget(@PathVariable Long id) {
-        return toResponse(nextStatusServiceOrderUseCase.execute(id, StatusSO.AGUARDANDO_APROVACAO));
+        return toResponse(sendBudgetUseCase.execute(id));
     }
-
-    @PatchMapping("/{id}/approve-budget")
-    @Operation(summary = "Cliente aprova o orçamento - AGUARDANDO_APROVACAO para EM_EXECUCAO")
-    public ServiceOrderDTO.Response approve_budget(@PathVariable Long id) {
-        return toResponse(budgetApproveUseCase.approve(id));
-    }
-
-    @PatchMapping("/{id}/refuse-budget")
-    @Operation(summary = "Cliente recusa o orçamento - AGUARDANDO_APROVACAO para CANCELADA")
-    public ServiceOrderDTO.Response refuse_budget(@PathVariable Long id) {
-        return toResponse(budgetApproveUseCase.refuse(id));
-    }
+//
+//    @PatchMapping("/{id}/approve-budget")
+//    @Operation(summary = "Cliente aprova o orçamento - AGUARDANDO_APROVACAO para EM_EXECUCAO")
+//    public ServiceOrderDTO.Response approve_budget(@PathVariable Long id) {
+//        return toResponse(budgetApproveUseCase.approve(id));
+//    }
+//
+//    @PatchMapping("/{id}/refuse-budget")
+//    @Operation(summary = "Cliente recusa o orçamento - AGUARDANDO_APROVACAO para CANCELADA")
+//    public ServiceOrderDTO.Response refuse_budget(@PathVariable Long id) {
+//        return toResponse(budgetApproveUseCase.refuse(id));
+//    }
 
     @PatchMapping("/{id}/complete")
     @Operation(summary = "Registrar entrega do veículo - FINALIZADA para ENTREGUE")
