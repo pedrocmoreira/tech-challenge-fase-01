@@ -87,7 +87,7 @@ public class PublicBudget {
         try{
             budgetApproveUseCase.approve(serviceOrder.getId());
             return confirmPage(
-                    "Orçamento Aprovado!",
+                    " Orçamento Aprovado!",
                     "Recebemos sua aprovação para a <strong>OS " + number + "</strong>.",
                     "Nossa equipe já iniciou os trabalhos. Você receberá atualizações em breve.",
                     "#2F9E44"
@@ -105,7 +105,7 @@ public class PublicBudget {
         try {
             budgetApproveUseCase.refuse(serviceOrder.getId());
             return confirmPage(
-                    "Orçamento Recusado",
+                    " Orçamento Recusado",
                     "Registramos a recusa do orçamento para a <strong>OS " + number + "</strong>.",
                     "A ordem de serviço foi cancelada. Entre em contato conosco se precisar de mais informações.",
                     "#E03131"
