@@ -94,4 +94,23 @@ public class BudgetApproveUseCaseTest {
         assertThatThrownBy(() -> budgetApproveUseCase.approve(99L))
                 .isInstanceOf(EntityNotFoundException.class);
     }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao recusar orçamento de ordem que não está aguardando aprovação")
+    void shouldThrowExceptionWhenRefusingOrderNotAwaitingApproval(){
+        when(serviceOrderRepository.filterById(2L)).thenReturn(Optional.of(serviceOrderReceived));
+
+        assertThatThrownBy(() -> budgetApproveUseCase.refuse(2L))
+                .isInstanceOf(InvalidStatusTransitionException.class)
+                .hasMessageContaining("AGUARDANDO_APROVACAO");
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção ao tentar recusar ordem de serviço inexistente")
+    void shouldThrowExceptionWhenRefusingNonExistentServiceOrder(){
+        when(serviceOrderRepository.filterById(99L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> budgetApproveUseCase.refuse(99L))
+                .isInstanceOf(EntityNotFoundException.class);
+    }
 }

@@ -111,6 +111,34 @@ public class CreateServiceOrderUseCaseTest {
     }
 
     @Test
+    @DisplayName("Deve lançar exceção quando o veículo não existe")
+    void shouldThrowExceptionWhenVehicleDoesNotExist(){
+        when(customerRepository.filterById(1L)).thenReturn(Optional.of(customer));
+        when(vehicleRepository.filterById(99L)).thenReturn(Optional.empty());
+
+        var input = new CreateServiceOrderUseCase.Input(1L, 99L, List.of(1L), null, null);
+
+        assertThatThrownBy(() -> createServiceOrderUseCase.execute(input))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining("99");
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção quando o serviço informado não existe")
+    void shouldThrowExceptionWhenServiceDoesNotExist(){
+        when(customerRepository.filterById(1L)).thenReturn(Optional.of(customer));
+        when(vehicleRepository.filterById(1L)).thenReturn(Optional.of(vehicle));
+        when(serviceOrderRepository.generateNextNumber()).thenReturn("OS-2024-00003");
+        when(serviceRepository.findById(99L)).thenReturn(Optional.empty());
+
+        var input = new CreateServiceOrderUseCase.Input(1L, 1L, List.of(99L), null, null);
+
+        assertThatThrownBy(() -> createServiceOrderUseCase.execute(input))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining("99");
+    }
+
+    @Test
     @DisplayName("Deve lançar uma exceção quando o estoque da peça é insuficiente")
     void shouldThrowExceptionWhenPartStockIsInsufficient(){
         Part noStock = Part.builder().id(2L).name("Pastilha de freio")

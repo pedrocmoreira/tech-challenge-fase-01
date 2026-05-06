@@ -74,4 +74,28 @@ public class ServiceOrderTest{
     void returnsNullsExecutionTimeOnUnstartedService(){
         assertThat(serviceOrder.getExecutionTimeInMinutes()).isNull();
     }
+
+    @Test
+    @DisplayName("Deve calcular o tempo de execução em minutos quando o serviço está concluído")
+    void shouldCalculateExecutionTimeInMinutesWhenServiceIsCompleted(){
+        serviceOrder.nextStatus(StatusSO.EM_DIAGNOSTICO);
+        serviceOrder.nextStatus(StatusSO.AGUARDANDO_APROVACAO);
+        serviceOrder.nextStatus(StatusSO.EM_EXECUCAO);
+        serviceOrder.nextStatus(StatusSO.FINALIZADA);
+
+        assertThat(serviceOrder.getExecutionTimeInMinutes()).isNotNull();
+        assertThat(serviceOrder.getExecutionTimeInMinutes()).isGreaterThanOrEqualTo(0L);
+    }
+
+    @Test
+    @DisplayName("Deve registrar data de entrega ao avançar para o status ENTREGUE")
+    void shouldRegisterDeliveryDateWhenAdvancingToDeliveredStatus(){
+        serviceOrder.nextStatus(StatusSO.EM_DIAGNOSTICO);
+        serviceOrder.nextStatus(StatusSO.AGUARDANDO_APROVACAO);
+        serviceOrder.nextStatus(StatusSO.EM_EXECUCAO);
+        serviceOrder.nextStatus(StatusSO.FINALIZADA);
+        serviceOrder.nextStatus(StatusSO.ENTREGUE);
+
+        assertThat(serviceOrder.getDeliveryDate()).isNotNull();
+    }
 }
