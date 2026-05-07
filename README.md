@@ -293,8 +293,4 @@ garage-system/
 
 A documentação completa do Domain-Driven Design, incluindo Event Storming, diagramas de domínio e Linguagem Ubíqua, está disponível no Miro:
 
-[Link da documentação no Miro](#) ← substituir pelo link real
-
----
-
-*Desenvolvido para o Tech Challenge — Fase 1 | POSTECH 2025*
+[Link da documentação no Miro](https://miro.com/welcomeonboard/TFRKalVNejNKNS9HRWYxVlZtemZXK3FnUEZGam11Smp2UU5XTERwdzN4QU0xNHdmZ2x2UzBCdlBsUUVUWFhsbXc4L000M1dNYmpUTTZsVHZ2bW9NL21tWVhuYStoVi95N2lqME5JY1Rnb0lva3AyOG5IZUVjSjIwWUxJMkYyZG1yVmtkMG5hNDA3dVlncnBvRVB2ZXBnPT0hdjE=?share_link_id=578869519281)
