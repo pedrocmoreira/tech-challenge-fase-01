@@ -3,6 +3,7 @@ package com.pedrocmoreira.garagesystem.infrastructure.persistence;
 import com.pedrocmoreira.garagesystem.domain.model.ServiceOrder;
 import com.pedrocmoreira.garagesystem.domain.model.StatusSO;
 import com.pedrocmoreira.garagesystem.domain.repository.ServiceOrderRepository;
+import com.pedrocmoreira.garagesystem.infrastructure.persistence.mapper.ServiceOrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,32 +18,32 @@ public class ServiceOrderRepositoryImplement implements ServiceOrderRepository {
 
     @Override
     public ServiceOrder save(ServiceOrder serviceOrder) {
-        return jpa.save(serviceOrder);
+        return ServiceOrderMapper.toDomain(jpa.save(ServiceOrderMapper.toEntity(serviceOrder)));
     }
 
     @Override
     public Optional<ServiceOrder> filterById(Long id) {
-        return jpa.findById(id);
+        return jpa.findById(id).map(ServiceOrderMapper::toDomain);
     }
 
     @Override
     public Optional<ServiceOrder> filterByNumber(String number) {
-        return jpa.findByNumber(number);
+        return jpa.findByNumber(number).map(ServiceOrderMapper::toDomain);
     }
 
     @Override
     public List<ServiceOrder> listAll() {
-        return jpa.findAll();
+        return jpa.findAll().stream().map(ServiceOrderMapper::toDomain).toList();
     }
 
     @Override
     public List<ServiceOrder> listByStatus(StatusSO statusSO) {
-        return jpa.findByStatus(statusSO);
+        return jpa.findByStatus(statusSO).stream().map(ServiceOrderMapper::toDomain).toList();
     }
 
     @Override
     public List<ServiceOrder> listByCustomer(Long customerId) {
-        return jpa.findByCustomerId(customerId);
+        return jpa.findByCustomerId(customerId).stream().map(ServiceOrderMapper::toDomain).toList();
     }
 
     @Override
