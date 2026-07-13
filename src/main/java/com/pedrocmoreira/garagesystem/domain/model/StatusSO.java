@@ -24,6 +24,13 @@ public enum StatusSO {
             CANCELADA,             Set.of()
     );
 
+    private static final Map<StatusSO, Integer> LISTING_PRIORITY = Map.of(
+            EM_EXECUCAO, 0,
+            AGUARDANDO_APROVACAO, 1,
+            EM_DIAGNOSTICO, 2,
+            RECEBIDA, 3
+    );
+
     public StatusSO transitionTo(StatusSO nextStatus) {
         Set<StatusSO> allowedTransitions  = ALLOWED_TRANSITIONS.getOrDefault(this, Set.of());
         if (!allowedTransitions.contains(nextStatus)){
@@ -34,6 +41,10 @@ public enum StatusSO {
 
     public boolean canTransitionTo(StatusSO next) {
         return ALLOWED_TRANSITIONS.getOrDefault(this, Set.of()).contains(next);
+    }
+
+    public int listingPriority() {
+        return LISTING_PRIORITY.getOrDefault(this, Integer.MAX_VALUE);
     }
 
 }

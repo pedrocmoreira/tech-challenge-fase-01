@@ -27,9 +27,9 @@ public class ServiceOrderController {
     private final NextStatusServiceOrderUseCase nextStatusServiceOrderUseCase;
     private final LinkPartToServiceOrderUseCase linkPartToServiceOrderUseCase;
     private final ServiceOrderRepository serviceOrderRepository;
-    private final BudgetApproveUseCase budgetApproveUseCase;
     private final AverageExecutionTimeUseCase averageExecutionTimeUseCase;
     private final SendBudgetUseCase sendBudgetUseCase;
+    private final ListActiveServiceOrdersUseCase listActiveServiceOrdersUseCase;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -49,9 +49,9 @@ public class ServiceOrderController {
     }
 
     @GetMapping
-    @Operation(summary = "Listar todas as Ordens de Serviços")
+    @Operation(summary = "Listar Ordens de Serviço ativas (ordenadas por prioridade de status, mais antigas primeiro)")
     public List<ServiceOrderDTO.Response> list(){
-        return serviceOrderRepository.listAll().stream().map(this::toResponse).toList();
+        return listActiveServiceOrdersUseCase.execute().stream().map(this::toResponse).toList();
     }
 
     @GetMapping("/{id}")
@@ -116,18 +116,6 @@ public class ServiceOrderController {
     public ServiceOrderDTO.Response sendBudget(@PathVariable Long id) {
         return toResponse(sendBudgetUseCase.execute(id));
     }
-//
-//    @PatchMapping("/{id}/approve-budget")
-//    @Operation(summary = "Cliente aprova o orçamento - AGUARDANDO_APROVACAO para EM_EXECUCAO")
-//    public ServiceOrderDTO.Response approve_budget(@PathVariable Long id) {
-//        return toResponse(budgetApproveUseCase.approve(id));
-//    }
-//
-//    @PatchMapping("/{id}/refuse-budget")
-//    @Operation(summary = "Cliente recusa o orçamento - AGUARDANDO_APROVACAO para CANCELADA")
-//    public ServiceOrderDTO.Response refuse_budget(@PathVariable Long id) {
-//        return toResponse(budgetApproveUseCase.refuse(id));
-//    }
 
     @PatchMapping("/{id}/complete")
     @Operation(summary = "Registrar entrega do veículo - FINALIZADA para ENTREGUE")
@@ -152,5 +140,4 @@ public class ServiceOrderController {
     public AverageExecutionTimeUseCase.AverageTimeResult averageExecutionTime() {
         return averageExecutionTimeUseCase.execute();
     }
-
 }
