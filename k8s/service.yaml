@@ -5,10 +5,11 @@ metadata:
   labels:
     app: garage-system
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: garage-system
   ports:
     - port: 8080
       targetPort: 8080
+      nodePort: 30080
       protocol: TCP
