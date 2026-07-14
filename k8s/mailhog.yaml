@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: garage-mailhog
+  labels:
+    app: garage-mailhog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: garage-mailhog
+  template:
+    metadata:
+      labels:
+        app: garage-mailhog
+    spec:
+      containers:
+        - name: mailhog
+          image: mailhog/mailhog:latest
+          ports:
+            - containerPort: 1025
+              name: smtp
+            - containerPort: 8025
+              name: web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: garage-mailhog
+  labels:
+    app: garage-mailhog
+spec:
+  type: ClusterIP
+  selector:
+    app: garage-mailhog
+  ports:
+    - name: smtp
+      port: 1025
+      targetPort: 1025
+    - name: web
+      port: 8025
+      targetPort: 8025

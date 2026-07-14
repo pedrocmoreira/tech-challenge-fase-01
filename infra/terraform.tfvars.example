@@ -1,0 +1,6 @@
+cluster_name       = "garage-system"
+kubernetes_version = "v1.31.0"
+db_name            = "garagesystem_db"
+db_user            = "garage"
+db_password        = "garage123"
+db_storage_size    = "2Gi"
