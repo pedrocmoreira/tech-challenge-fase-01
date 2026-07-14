@@ -391,7 +391,7 @@ Com a aplicação rodando (Docker Compose ou Kubernetes), acesse o Swagger UI:
 http://localhost:8080/swagger-ui.html
 ```
 
-**Collection completa da API**: [LINK_DA_COLLECTION_AQUI]
+**Collection completa da API**: https://petstore.swagger.io/?url=https://raw.githubusercontent.com/pedrocmoreira/tech-challenge-fase-01/main/docs/openapi.json
 
 ### Autenticação no Swagger
 
