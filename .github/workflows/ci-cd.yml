@@ -60,6 +60,7 @@ jobs:
         working-directory: infra
         run: |
           terraform init
+          terraform apply -auto-approve -target=kind_cluster.this
           terraform apply -auto-approve
 
       - name: Carregar imagem no cluster kind
