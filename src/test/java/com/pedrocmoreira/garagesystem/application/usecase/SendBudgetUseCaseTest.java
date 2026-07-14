@@ -61,6 +61,7 @@ public class SendBudgetUseCaseTest {
         ServiceOrder result = sendBudgetUseCase.execute(1L);
 
         assertThat(result.getStatus()).isEqualTo(StatusSO.AGUARDANDO_APROVACAO);
+        assertThat(result.getBudgetToken()).isNotBlank();
         verify(emailService).sendBudget(result);
         verify(serviceOrderRepository).save(serviceOrderInDiagnostic);
     }

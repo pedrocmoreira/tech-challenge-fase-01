@@ -20,6 +20,9 @@ public class ServiceOrderEntity {
     @Column(nullable = false, unique = true)
     private String number;
 
+    @Column(name = "budget_token", unique = true, length = 36)
+    private String budgetToken;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer;

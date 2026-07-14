@@ -54,8 +54,8 @@ public class EmailService {
             context.setVariable("vehicleYear",   serviceOrder.getVehicle().getYear());
             context.setVariable("totalValue",   serviceOrder.getTotalValue());
             context.setVariable("observations",  serviceOrder.getObservations());
-            context.setVariable("approveUrl", baseUrl + "/api/budget/" + serviceOrder.getNumber() + "/approve");
-            context.setVariable("refuseUrl",  baseUrl + "/api/budget/" + serviceOrder.getNumber() + "/refuse");
+            context.setVariable("approveUrl", baseUrl + "/api/budget/" + serviceOrder.getBudgetToken() + "/approve");
+            context.setVariable("refuseUrl",  baseUrl + "/api/budget/" + serviceOrder.getBudgetToken() + "/refuse");
 
             List<EmailItemDTO> services = serviceOrder.getServiceItems().stream()
                     .map(i -> new EmailItemDTO(

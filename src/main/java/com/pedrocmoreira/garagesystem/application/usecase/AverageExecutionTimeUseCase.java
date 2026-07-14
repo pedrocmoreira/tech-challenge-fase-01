@@ -27,7 +27,7 @@ public class AverageExecutionTimeUseCase {
         List<ServiceOrder> delivered = serviceOrderRepository.listByStatus(StatusSO.ENTREGUE);
 
         List<Long> times = java.util.stream.Stream
-                .concat(completed.stream(), completed.stream())
+                .concat(completed.stream(), delivered.stream())
                 .map(ServiceOrder::getExecutionTimeInMinutes)
                 .filter(t -> t != null && t > 0)
                 .toList();

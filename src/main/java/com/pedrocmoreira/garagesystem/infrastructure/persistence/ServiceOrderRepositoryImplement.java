@@ -32,6 +32,11 @@ public class ServiceOrderRepositoryImplement implements ServiceOrderRepository {
     }
 
     @Override
+    public Optional<ServiceOrder> filterByBudgetToken(String budgetToken) {
+        return jpa.findByBudgetToken(budgetToken).map(ServiceOrderMapper::toDomain);
+    }
+
+    @Override
     public List<ServiceOrder> listAll() {
         return jpa.findAll().stream().map(ServiceOrderMapper::toDomain).toList();
     }

@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface ServiceOrderJpaRepository extends JpaRepository<ServiceOrderEntity, Long> {
     Optional<ServiceOrderEntity> findByNumber(String number);
+    Optional<ServiceOrderEntity> findByBudgetToken(String budgetToken);
     List<ServiceOrderEntity> findByStatus(StatusSO statusSO);
     List<ServiceOrderEntity> findByCustomerId(Long customerId);
 

@@ -44,7 +44,7 @@ Na Fase 2, o objetivo passou a ser **evoluir essa aplicação para suportar cres
 | Spring Boot | 4.0.6 | Framework back-end |
 | Spring Security | incluso no Spring Boot | Autenticação e autorização |
 | PostgreSQL | 16 | Banco de dados principal |
-| H2 | - | Banco em memória para testes |
+| Testcontainers | 2.0.5 | Testes de integração contra PostgreSQL real |
 | Flyway | - | Migrations do banco de dados |
 | JWT (jjwt) | 0.12.5 | Autenticação stateless |
 | springdoc-openapi | 2.x | Documentação Swagger |
@@ -369,7 +369,7 @@ Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis (usadas pe
 | `DB_NAME` | `garagesystem_db` | Nome do banco |
 | `DB_USER` | `garage` | Usuário do banco |
 | `DB_PASS` | `garage123` | Senha do banco |
-| `JWT_SECRET` | `sua-chave-secreta` | Chave de assinatura JWT — **obrigatório trocar em produção** |
+| `JWT_SECRET` | `sua-chave-secreta` | Chave de assinatura JWT — **obrigatória**, sem valor padrão: a aplicação falha ao subir se não for definida |
 | `ADMIN_USERNAME` | `admin` | Usuário administrador criado no primeiro boot |
 | `ADMIN_PASSWORD` | `admin123` | Senha do administrador — **trocar em produção** |
 | `MAIL_HOST` | `mailhog` | Host SMTP |
@@ -404,6 +404,15 @@ http://localhost:8080/swagger-ui.html
 
 ## Testes
 
+O projeto combina testes unitários (domínio e casos de uso, com Mockito) e um teste de
+integração real contra **PostgreSQL via Testcontainers** (`ServiceOrderRepositoryImplementIntegrationTest`),
+que sobe um container do mesmo banco usado em produção, roda todas as migrations do Flyway
+e valida as queries JPA/JPQL contra o dialeto real do Postgres — substituindo o uso de H2 nos
+testes de persistência.
+
+> **Pré-requisito**: como o teste de integração usa Testcontainers, é necessário ter o **Docker
+> em execução** localmente (ou no runner de CI) para rodar `./mvnw test` ou `./mvnw verify`.
+
 ### Executar todos os testes
 
 ```bash
@@ -421,7 +430,9 @@ O relatório de cobertura (JaCoCo) é gerado em:
 target/site/jacoco/index.html
 ```
 
-No CI/CD, esse mesmo relatório é publicado como artefato de cada execução do pipeline.
+A build falha se a cobertura de `domain` e `application/usecase` ficar abaixo de **80%**
+(regra configurada no `pom.xml`). No CI/CD, esse mesmo relatório é publicado como artefato
+de cada execução do pipeline.
 
 ---
 
@@ -469,9 +480,14 @@ garage-system/
 │   │           ├── V3__create_services_parts.sql
 │   │           ├── V4__create_service_orders.sql
 │   │           ├── V5__create_users.sql
-│   │           └── V6__add_diagnosis_start_date_to_service_orders.sql
+│   │           ├── V6__add_diagnosis_start_date_to_service_orders.sql
+│   │           ├── V7__fix_status_unique_constraint.sql
+│   │           ├── V8__seed_informations.sql
+│   │           └── V9__add_budget_token_to_service_orders.sql
 │   └── test/
 │       ├── java/com/pedrocmoreira/garagesystem/
+│       │   └── infrastructure/persistence/
+│       │       └── ServiceOrderRepositoryImplementIntegrationTest.java  # Testcontainers + PostgreSQL
 │       └── resources/
 │           └── application-test.yml
 ├── Dockerfile
@@ -484,8 +500,9 @@ garage-system/
 
 ## Segurança
 
-- Autenticação via **JWT** em todas as rotas administrativas
+- Autenticação via **JWT** em todas as rotas administrativas, com segredo obrigatório (`JWT_SECRET`) — sem valor padrão embutido no `application.yml`
 - Rotas públicas (`/api/consult/**`, `/api/budget/**`, `/api/auth/**`, `/actuator/**`, Swagger) liberadas sem autenticação
+- Links de aprovação/recusa de orçamento (`/api/budget/{token}/...`) usam um **token de uso único** (UUID), gerado ao enviar o orçamento e invalidado assim que o cliente aprova ou recusa — em vez do número sequencial (previsível) da OS
 - Senhas armazenadas com **BCrypt**
 - Validação matemática de **CPF e CNPJ** (dígitos verificadores)
 - Validação de **placa veicular** nos formatos antigo (ABC1234) e Mercosul (ABC1D23)

@@ -30,6 +30,7 @@ public class BudgetApproveUseCase {
         }
 
         serviceOrder.nextStatus(StatusSO.EM_EXECUCAO);
+        serviceOrder.setBudgetToken(null);
         return serviceOrderRepository.save(serviceOrder);
     }
 
@@ -44,6 +45,7 @@ public class BudgetApproveUseCase {
         }
 
         serviceOrder.nextStatus(StatusSO.CANCELADA);
+        serviceOrder.setBudgetToken(null);
         return serviceOrderRepository.save(serviceOrder);
     }
 }

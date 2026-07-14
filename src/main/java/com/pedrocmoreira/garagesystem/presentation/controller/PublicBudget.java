@@ -21,9 +21,9 @@ public class PublicBudget {
     private final BudgetApproveUseCase budgetApproveUseCase;
     private final ServiceOrderRepository serviceOrderRepository;
 
-    private ServiceOrder filterByNumber(String number){
-        return serviceOrderRepository.filterByNumber(number)
-                .orElseThrow(() -> new EntityNotFoundException("Ordem de serviço", number));
+    private ServiceOrder filterByToken(String token){
+        return serviceOrderRepository.filterByBudgetToken(token)
+                .orElseThrow(() -> new EntityNotFoundException("Link de aprovação de orçamento", token));
     }
 
     private String confirmPage(String title, String message, String detail, String color) {
@@ -77,10 +77,11 @@ public class PublicBudget {
         );
     }
 
-    @GetMapping(value = "/{number}/approve", produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping(value = "/{token}/approve", produces = MediaType.TEXT_HTML_VALUE)
     @Operation(summary = "Cliente aprova o orçamendo via link do e-mail")
-    public String approve(@PathVariable String number){
-        ServiceOrder serviceOrder = filterByNumber(number);
+    public String approve(@PathVariable String token){
+        ServiceOrder serviceOrder = filterByToken(token);
+        String number = serviceOrder.getNumber();
 
         try{
             budgetApproveUseCase.approve(serviceOrder.getId());
@@ -95,10 +96,11 @@ public class PublicBudget {
         }
     }
 
-    @GetMapping(value = "/{number}/refuse", produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping(value = "/{token}/refuse", produces = MediaType.TEXT_HTML_VALUE)
     @Operation(summary = "O Cliente recusa o orçamento via link do e-mail")
-    public String refuse(@PathVariable String number){
-        ServiceOrder serviceOrder = filterByNumber(number);
+    public String refuse(@PathVariable String token){
+        ServiceOrder serviceOrder = filterByToken(token);
+        String number = serviceOrder.getNumber();
 
         try {
             budgetApproveUseCase.refuse(serviceOrder.getId());

@@ -14,6 +14,10 @@ public class ServiceOrder {
     private Customer customer;
     private Vehicle vehicle;
 
+    // Token de uso único enviado no link de aprovação/recusa de orçamento por e-mail.
+    // Evita que o número sequencial (previsível) da OS seja usado para acessar o link de outro cliente.
+    private String budgetToken;
+
     @Builder.Default
     private StatusSO status = StatusSO.RECEBIDA;
 

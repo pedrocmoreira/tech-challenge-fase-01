@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class SendBudgetUseCase {
@@ -21,6 +23,7 @@ public class SendBudgetUseCase {
                 .orElseThrow(() -> new EntityNotFoundException("Ordem de serviço", serviceOrderId));
 
         serviceOrder.nextStatus(StatusSO.AGUARDANDO_APROVACAO);
+        serviceOrder.setBudgetToken(UUID.randomUUID().toString());
         ServiceOrder savedServiceOrder = serviceOrderRepository.save(serviceOrder);
 
         emailService.sendBudget(savedServiceOrder);

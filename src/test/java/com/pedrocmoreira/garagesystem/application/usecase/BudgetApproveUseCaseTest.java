@@ -43,6 +43,7 @@ public class BudgetApproveUseCaseTest {
         serviceOrderWaiting = ServiceOrder.builder()
                 .id(1L).number("OS-2024-00001")
                 .status(StatusSO.AGUARDANDO_APROVACAO)
+                .budgetToken("11111111-1111-1111-1111-111111111111")
                 .customer(customer).vehicle(vehicle).build();
 
         serviceOrderReceived = ServiceOrder.builder()
@@ -61,6 +62,7 @@ public class BudgetApproveUseCaseTest {
 
         assertThat(result.getStatus()).isEqualTo(StatusSO.EM_EXECUCAO);
         assertThat(result.getExecutionStartDate()).isNotNull(); // ✅ Correto!
+        assertThat(result.getBudgetToken()).isNull();
         verify(serviceOrderRepository).save(serviceOrderWaiting);
     }
 
@@ -73,6 +75,7 @@ public class BudgetApproveUseCaseTest {
         ServiceOrder result = budgetApproveUseCase.refuse(1L);
 
         assertThat(result.getStatus()).isEqualTo(StatusSO.CANCELADA);
+        assertThat(result.getBudgetToken()).isNull();
         verify(serviceOrderRepository).save(serviceOrderWaiting);
     }
 
