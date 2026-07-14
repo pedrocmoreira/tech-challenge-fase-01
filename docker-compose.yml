@@ -49,11 +49,12 @@ services:
       MAIL_PASSWORD: ""
       MAIL_FROM: ${MAIL_FROM}
       APP_BASE_URL: http://localhost:8080
-    depends_on:
-      db:
-        condition: service_healthy
-      mailhog:
-        condition: service_started
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health/liveness" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
 volumes:
   pgdata:
