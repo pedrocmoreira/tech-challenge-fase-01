@@ -5,10 +5,13 @@ Sistema back-end para gestão de uma oficina mecânica, desenvolvido para o **Te
 - **Fase 1**: MVP funcional (CRUDs, fluxo de OS, autenticação JWT, aprovação de orçamento por e-mail).
 - **Fase 2**: evolução para produção — Clean Architecture/Hexagonal, containerização, orquestração em Kubernetes, Infraestrutura como Código com Terraform e pipeline de CI/CD.
 
+📺 **Vídeo demonstrativo (Fase 2):** https://youtu.be/R-8TEdzFb80
+
 ---
 
 ## Índice
 
+- [Vídeo demonstrativo](#vídeo-demonstrativo)
 - [Sobre o projeto](#sobre-o-projeto)
 - [Tecnologias](#tecnologias)
 - [Arquitetura da aplicação](#arquitetura-da-aplicação)
@@ -23,6 +26,14 @@ Sistema back-end para gestão de uma oficina mecânica, desenvolvido para o **Te
 - [Testes](#testes)
 - [Estrutura do projeto](#estrutura-do-projeto)
 - [Segurança](#segurança)
+
+---
+
+## Vídeo demonstrativo
+
+Demonstração do ambiente em execução (deploy da aplicação, pipeline de CI/CD, consumo das APIs e escalabilidade automática):
+
+**▶️ https://youtu.be/R-8TEdzFb80**
 
 ---
 

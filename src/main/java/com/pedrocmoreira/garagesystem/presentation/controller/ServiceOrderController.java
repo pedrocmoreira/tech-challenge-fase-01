@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/service-orders")
 @RequiredArgsConstructor
 @Tag(name = "Ordens de Serviço", description = "Gestão completa do ciclo de vida das Ordens de Serviço")
 @SecurityRequirement(name = "bearerAuth")

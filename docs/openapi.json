@@ -1,1 +1,1966 @@
-{"openapi":"3.1.0","info":{"title":"Garage System API","description":"API feita para o tech challenge - Fase 01","version":"0.0.1"},"servers":[{"url":"http://localhost:8081","description":"Generated server url"}],"security":[{"bearerAuth":[]}],"tags":[{"name":"Ordens de Serviço","description":"Gestão completa do ciclo de vida das Ordens de Serviço"},{"name":"Consulta Pública","description":"Endpoints públicos = sem autenticação JWT"},{"name":"Autenticação","description":"Login e geração e token JWT"},{"name":"Serviços","description":"Gestão de serviços disponíveis na oficina"},{"name":"Orçamento Público","description":"Endpoint acessado pelo cliente via link do e-mail"},{"name":"Clientes","description":"Registro de clientes"},{"name":"Peças e Insumos","description":"Gerenciamento de peças e controle de estoque"},{"name":"Veículos","description":"Gerenciamento de veículos"}],"paths":{"/api/vehicles/{id}":{"get":{"tags":["Veículos"],"summary":"Buscar veículo por Id","operationId":"listById","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response"}}}}}},"security":[{"bearerAuth":[]}]},"put":{"tags":["Veículos"],"summary":"Atualizar veículo","operationId":"update","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Request"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response"}}}}},"security":[{"bearerAuth":[]}]},"delete":{"tags":["Veículos"],"summary":"Remover veículo","operationId":"delete","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"201":{"description":"Created"}},"security":[{"bearerAuth":[]}]}},"/api/services/{id}":{"put":{"tags":["Serviços"],"summary":"Atualizar serviço","operationId":"update_1","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Request"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Response"}}}}},"security":[{"bearerAuth":[]}]},"delete":{"tags":["Serviços"],"summary":"Remover serviço","operationId":"delete_1","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"204":{"description":"No Content"}},"security":[{"bearerAuth":[]}]}},"/api/parts/{id}":{"get":{"tags":["Peças e Insumos"],"summary":"Buscar Peça por ID","operationId":"filterById","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Response"}}}}},"security":[{"bearerAuth":[]}]},"put":{"tags":["Peças e Insumos"],"summary":"Atualizar Peça/Insumo","operationId":"update_2","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Request"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Response"}}}}},"security":[{"bearerAuth":[]}]},"delete":{"tags":["Peças e Insumos"],"summary":"Excluir Peça/Insumo","operationId":"delete_2","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"204":{"description":"No Content"}},"security":[{"bearerAuth":[]}]}},"/api/customers/{id}":{"get":{"tags":["Clientes"],"summary":"Buscar cliente por ID","operationId":"filterById_1","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Response"}}}}},"security":[{"bearerAuth":[]}]},"put":{"tags":["Clientes"],"summary":"Atualizar cliente","operationId":"update_3","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Request"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Response"}}}}},"security":[{"bearerAuth":[]}]},"delete":{"tags":["Clientes"],"summary":"Remover cliente","operationId":"delete_3","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"204":{"description":"No Content"}},"security":[{"bearerAuth":[]}]}},"/{id}/parts":{"post":{"tags":["Ordens de Serviço"],"summary":"Vincular peça à Ordem de Serviço em execução","operationId":"LinkPart","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.LinkPartRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/api/vehicles":{"get":{"tags":["Veículos"],"summary":"Listar todos os veículos","operationId":"list","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response"}}}}}},"security":[{"bearerAuth":[]}]},"post":{"tags":["Veículos"],"summary":"Cadastrar novo veículo","operationId":"create","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Request"}}},"required":true},"responses":{"201":{"description":"Created","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/api/services":{"get":{"tags":["Serviços"],"summary":"Listar todos os serviços","operationId":"list_1","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Response"}}}}}},"security":[{"bearerAuth":[]}]},"post":{"tags":["Serviços"],"summary":"Cadastrat novo serviço","operationId":"create_1","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Request"}}},"required":true},"responses":{"201":{"description":"Created","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/api/parts":{"get":{"tags":["Peças e Insumos"],"summary":"Listar todas as peças","operationId":"list_2","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Response"}}}}}},"security":[{"bearerAuth":[]}]},"post":{"tags":["Peças e Insumos"],"summary":"Cadastrar uma Peça/Insumo","operationId":"create_2","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Request"}}},"required":true},"responses":{"201":{"description":"Created","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/api/customers":{"get":{"tags":["Clientes"],"summary":"Listar todos os clientes","operationId":"list_3","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Response"}}}}}},"security":[{"bearerAuth":[]}]},"post":{"tags":["Clientes"],"summary":"Cadastrar um novo cliente","operationId":"create_3","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Request"}}},"required":true},"responses":{"201":{"description":"Created","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/api/auth/login":{"post":{"tags":["Autenticação"],"summary":"Realizar o login e obter token JWT","operationId":"login","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.AuthDTO.LoginRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.AuthDTO.TokenResponse"}}}}}}},"/":{"get":{"tags":["Ordens de Serviço"],"summary":"Listar Ordens de Serviço ativas (ordenadas por prioridade de status, mais antigas primeiro)","operationId":"list_4","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"}}}}}},"security":[{"bearerAuth":[]}]},"post":{"tags":["Ordens de Serviço"],"summary":"Criar nova Ordem de serviço","operationId":"create_4","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Request"}}},"required":true},"responses":{"201":{"description":"Created","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/{id}/status":{"patch":{"tags":["Ordens de Serviço"],"summary":"Avançar status manualmente (caso necessário)","operationId":"advanceStatus","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.NextStatusRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/{id}/start-diagnosis":{"patch":{"tags":["Ordens de Serviço"],"summary":"Iniciar diagnóstico - RECEBIDA para EM_DAGNOSTICO","operationId":"startDiadnosis","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/{id}/send-budget":{"patch":{"tags":["Ordens de Serviço"],"summary":"Enviar orçamento ao cliente - EM_DIAGNOSTICO para AGUARDANDO_APROVACAO","operationId":"sendBudget","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/{id}/deliver":{"patch":{"tags":["Ordens de Serviço"],"summary":"Registrar entrega do veículo - FINALIZADA para ENTREGUE","operationId":"deliver","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/{id}/complete":{"patch":{"tags":["Ordens de Serviço"],"summary":"Registrar entrega do veículo - FINALIZADA para ENTREGUE","operationId":"complete","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/api/parts/{id}/stock":{"patch":{"tags":["Peças e Insumos"],"summary":"Repor estoque de uma peça","operationId":"replaceStock","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}},{"name":"quantity","in":"query","required":true,"schema":{"type":"integer","format":"int32"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/{id}":{"get":{"tags":["Ordens de Serviço"],"summary":"Listar todas as Ordens de Serviço","operationId":"filterById_2","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/status/{status}":{"get":{"tags":["Ordens de Serviço"],"summary":"Listar OS por status","operationId":"listbyStatus","parameters":[{"name":"status","in":"path","required":true,"schema":{"type":"string","enum":["RECEBIDA","EM_DIAGNOSTICO","AGUARDANDO_APROVACAO","EM_EXECUCAO","FINALIZADA","ENTREGUE","CANCELADA"]}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"}}}}}},"security":[{"bearerAuth":[]}]}},"/report/average-time":{"get":{"tags":["Ordens de Serviço"],"summary":"Tempo médio de execução dos serviços","operationId":"averageExecutionTime","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.application.usecase.AverageExecutionTimeUseCase.AverageTimeResult"}}}}},"security":[{"bearerAuth":[]}]}},"/api/vehicles/plate/{plate}":{"get":{"tags":["Veículos"],"summary":"Filtrar pela placa do Veículo","operationId":"filterByPlate","parameters":[{"name":"plate","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response"}}}}}},"security":[{"bearerAuth":[]}]}},"/api/vehicles/customer/{customerId}":{"get":{"tags":["Veículos"],"summary":"Buscar veículo por Cliente","operationId":"listByCustomers","parameters":[{"name":"customerId","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response"}}}}}},"security":[{"bearerAuth":[]}]}},"/api/customers/document/{document}":{"get":{"tags":["Clientes"],"summary":"Buscar cliente por CPF/CNPJ","operationId":"filterByDocument","parameters":[{"name":"document","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Response"}}}}},"security":[{"bearerAuth":[]}]}},"/api/consult/service-order/{number}":{"get":{"tags":["Consulta Pública"],"summary":"Consultar status da Ordem de serviço pelo número  (público, sem login necessário)","operationId":"consultStatus","parameters":[{"name":"number","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.StatusResponse"}}}}}}},"/api/budget/{token}/refuse":{"get":{"tags":["Orçamento Público"],"summary":"O Cliente recusa o orçamento via link do e-mail","operationId":"refuse","parameters":[{"name":"token","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"text/html":{"schema":{"type":"string"}}}}}}},"/api/budget/{token}/approve":{"get":{"tags":["Orçamento Público"],"summary":"Cliente aprova o orçamendo via link do e-mail","operationId":"approve","parameters":[{"name":"token","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"text/html":{"schema":{"type":"string"}}}}}}}},"components":{"schemas":{"com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Request":{"type":"object","properties":{"plate":{"type":"string","minLength":1},"make":{"type":"string","minLength":1},"model":{"type":"string","minLength":1},"year":{"type":"integer","format":"int32"},"color":{"type":"string"},"customerId":{"type":"integer","format":"int64"}},"required":["customerId","make","model","plate","year"]},"com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"plate":{"type":"string"},"make":{"type":"string"},"model":{"type":"string"},"ano":{"type":"integer","format":"int32"},"color":{"type":"string"},"customerId":{"type":"integer","format":"int64"},"customerName":{"type":"string"}}},"com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Request":{"type":"object","properties":{"name":{"type":"string","minLength":1},"description":{"type":"string"},"basePrice":{"type":"number"},"estimedTimeInMinutes":{"type":"integer","format":"int32"}},"required":["basePrice","name"]},"com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Response":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"},"description":{"type":"string"},"basePrice":{"type":"number"},"estimedTimeInminutes":{"type":"integer","format":"int32"},"active":{"type":"boolean"}}},"com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Request":{"type":"object","properties":{"name":{"type":"string","minLength":1},"description":{"type":"string"},"code":{"type":"string"},"unitPrice":{"type":"number"},"quantityStock":{"type":"integer","format":"int32"},"minStock":{"type":"integer","format":"int32"}},"required":["name","unitPrice"]},"com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Response":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"},"description":{"type":"string"},"code":{"type":"string"},"unitPrice":{"type":"number"},"quantityStock":{"type":"integer","format":"int32"},"minStock":{"type":"integer","format":"int32"},"active":{"type":"boolean"},"criticStock":{"type":"boolean"}}},"com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Request":{"type":"object","properties":{"document":{"type":"string","minLength":1},"documentType":{"type":"string","enum":["CPF","CNPJ"]},"name":{"type":"string","minLength":1},"phone":{"type":"string"},"email":{"type":"string"}},"required":["document","documentType","name"]},"com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Response":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"document":{"type":"string"},"documentType":{"type":"string","enum":["CPF","CNPJ"]},"name":{"type":"string"},"phone":{"type":"string"},"email":{"type":"string"}}},"com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.LinkPartRequest":{"type":"object","properties":{"partId":{"type":"integer","format":"int64"},"quantity":{"type":"integer","format":"int32"}},"required":["partId","quantity"]},"com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.CustomerResume":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"},"document":{"type":"string"}}},"com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.PartItemResponse":{"type":"object","properties":{"partId":{"type":"integer","format":"int64"},"partName":{"type":"string"},"quantity":{"type":"integer","format":"int32"},"unitPriceApplied":{"type":"number"},"subtotal":{"type":"number"}}},"com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"number":{"type":"string"},"status":{"type":"string","enum":["RECEBIDA","EM_DIAGNOSTICO","AGUARDANDO_APROVACAO","EM_EXECUCAO","FINALIZADA","ENTREGUE","CANCELADA"]},"totalValue":{"type":"number"},"observations":{"type":"string"},"created_at":{"type":"string","format":"date-time"},"completionDate":{"type":"string","format":"date-time"},"deliveryDate":{"type":"string","format":"date-time"},"executionTimeInMinutes":{"type":"integer","format":"int64"},"customer":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.CustomerResume"},"vehicle":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.VehicleResume"},"services":{"type":"array","items":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.ServiceItemResponse"}},"parts":{"type":"array","items":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.PartItemResponse"}}}},"com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.ServiceItemResponse":{"type":"object","properties":{"serviceId":{"type":"integer","format":"int64"},"serviceName":{"type":"string"},"appliedPrice":{"type":"number"}}},"com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.VehicleResume":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"plate":{"type":"string"},"Make":{"type":"string"},"model":{"type":"string"}}},"com.pedrocmoreira.garagesystem.presentation.dto.AuthDTO.LoginRequest":{"type":"object","properties":{"username":{"type":"string","minLength":1},"password":{"type":"string","minLength":1}},"required":["password","username"]},"com.pedrocmoreira.garagesystem.presentation.dto.AuthDTO.TokenResponse":{"type":"object","properties":{"token":{"type":"string"},"type":{"type":"string"},"expiracaoMs":{"type":"integer","format":"int64"}}},"com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.PartItemRequest":{"type":"object","properties":{"partId":{"type":"integer","format":"int64"},"quantity":{"type":"integer","format":"int32"}},"required":["partId","quantity"]},"com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Request":{"type":"object","properties":{"customerId":{"type":"integer","format":"int64"},"vehicleId":{"type":"integer","format":"int64"},"serviceIds":{"type":"array","items":{"type":"integer","format":"int64"}},"parts":{"type":"array","items":{"$ref":"#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.PartItemRequest"}},"observations":{"type":"string"}},"required":["customerId","serviceIds","vehicleId"]},"com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.NextStatusRequest":{"type":"object","properties":{"newStatus":{"type":"string","enum":["RECEBIDA","EM_DIAGNOSTICO","AGUARDANDO_APROVACAO","EM_EXECUCAO","FINALIZADA","ENTREGUE","CANCELADA"]}},"required":["newStatus"]},"com.pedrocmoreira.garagesystem.application.usecase.AverageExecutionTimeUseCase.AverageTimeResult":{"type":"object","properties":{"totalCompletedServiceOrders":{"type":"integer","format":"int64"},"avarageTimeInMinutes":{"type":"number","format":"double"},"avarageTimeInHours":{"type":"number","format":"double"}}},"com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.StatusResponse":{"type":"object","properties":{"number":{"type":"string"},"status":{"type":"string","enum":["RECEBIDA","EM_DIAGNOSTICO","AGUARDANDO_APROVACAO","EM_EXECUCAO","FINALIZADA","ENTREGUE","CANCELADA"]},"created_at":{"type":"string","format":"date-time"},"completionDate":{"type":"string","format":"date-time"}}}},"securitySchemes":{"bearerAuth":{"type":"http","name":"bearerAuth","scheme":"bearer","bearerFormat":"JWT"}}}}
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Garage System API",
+    "description": "API feita para o tech challenge - Fase 01",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Ordens de Serviço",
+      "description": "Gestão completa do ciclo de vida das Ordens de Serviço"
+    },
+    {
+      "name": "Consulta Pública",
+      "description": "Endpoints públicos = sem autenticação JWT"
+    },
+    {
+      "name": "Autenticação",
+      "description": "Login e geração e token JWT"
+    },
+    {
+      "name": "Serviços",
+      "description": "Gestão de serviços disponíveis na oficina"
+    },
+    {
+      "name": "Orçamento Público",
+      "description": "Endpoint acessado pelo cliente via link do e-mail"
+    },
+    {
+      "name": "Clientes",
+      "description": "Registro de clientes"
+    },
+    {
+      "name": "Peças e Insumos",
+      "description": "Gerenciamento de peças e controle de estoque"
+    },
+    {
+      "name": "Veículos",
+      "description": "Gerenciamento de veículos"
+    }
+  ],
+  "paths": {
+    "/api/vehicles/{id}": {
+      "get": {
+        "tags": [
+          "Veículos"
+        ],
+        "summary": "Buscar veículo por Id",
+        "operationId": "listById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Veículos"
+        ],
+        "summary": "Atualizar veículo",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Veículos"
+        ],
+        "summary": "Remover veículo",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/services/{id}": {
+      "put": {
+        "tags": [
+          "Serviços"
+        ],
+        "summary": "Atualizar serviço",
+        "operationId": "update_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Serviços"
+        ],
+        "summary": "Remover serviço",
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/parts/{id}": {
+      "get": {
+        "tags": [
+          "Peças e Insumos"
+        ],
+        "summary": "Buscar Peça por ID",
+        "operationId": "filterById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Peças e Insumos"
+        ],
+        "summary": "Atualizar Peça/Insumo",
+        "operationId": "update_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Peças e Insumos"
+        ],
+        "summary": "Excluir Peça/Insumo",
+        "operationId": "delete_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/customers/{id}": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Buscar cliente por ID",
+        "operationId": "filterById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Atualizar cliente",
+        "operationId": "update_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Remover cliente",
+        "operationId": "delete_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/vehicles": {
+      "get": {
+        "tags": [
+          "Veículos"
+        ],
+        "summary": "Listar todos os veículos",
+        "operationId": "list",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Veículos"
+        ],
+        "summary": "Cadastrar novo veículo",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/services": {
+      "get": {
+        "tags": [
+          "Serviços"
+        ],
+        "summary": "Listar todos os serviços",
+        "operationId": "list_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Response"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Serviços"
+        ],
+        "summary": "Cadastrat novo serviço",
+        "operationId": "create_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/service-orders": {
+      "get": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Listar Ordens de Serviço ativas (ordenadas por prioridade de status, mais antigas primeiro)",
+        "operationId": "list_2",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Criar nova Ordem de serviço",
+        "operationId": "create_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/service-orders/{id}/parts": {
+      "post": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Vincular peça à Ordem de Serviço em execução",
+        "operationId": "LinkPart",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.LinkPartRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/parts": {
+      "get": {
+        "tags": [
+          "Peças e Insumos"
+        ],
+        "summary": "Listar todas as peças",
+        "operationId": "list_3",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Response"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Peças e Insumos"
+        ],
+        "summary": "Cadastrar uma Peça/Insumo",
+        "operationId": "create_3",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/customers": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Listar todos os clientes",
+        "operationId": "list_4",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Response"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Cadastrar um novo cliente",
+        "operationId": "create_4",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Realizar o login e obter token JWT",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.AuthDTO.LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.AuthDTO.TokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/service-orders/{id}/status": {
+      "patch": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Avançar status manualmente (caso necessário)",
+        "operationId": "advanceStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.NextStatusRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/service-orders/{id}/start-diagnosis": {
+      "patch": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Iniciar diagnóstico - RECEBIDA para EM_DAGNOSTICO",
+        "operationId": "startDiadnosis",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/service-orders/{id}/send-budget": {
+      "patch": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Enviar orçamento ao cliente - EM_DIAGNOSTICO para AGUARDANDO_APROVACAO",
+        "operationId": "sendBudget",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/service-orders/{id}/deliver": {
+      "patch": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Registrar entrega do veículo - FINALIZADA para ENTREGUE",
+        "operationId": "deliver",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/service-orders/{id}/complete": {
+      "patch": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Registrar entrega do veículo - FINALIZADA para ENTREGUE",
+        "operationId": "complete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/parts/{id}/stock": {
+      "patch": {
+        "tags": [
+          "Peças e Insumos"
+        ],
+        "summary": "Repor estoque de uma peça",
+        "operationId": "replaceStock",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/vehicles/plate/{plate}": {
+      "get": {
+        "tags": [
+          "Veículos"
+        ],
+        "summary": "Filtrar pela placa do Veículo",
+        "operationId": "filterByPlate",
+        "parameters": [
+          {
+            "name": "plate",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/vehicles/customer/{customerId}": {
+      "get": {
+        "tags": [
+          "Veículos"
+        ],
+        "summary": "Buscar veículo por Cliente",
+        "operationId": "listByCustomers",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/service-orders/{id}": {
+      "get": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Listar todas as Ordens de Serviço",
+        "operationId": "filterById_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/service-orders/status/{status}": {
+      "get": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Listar OS por status",
+        "operationId": "listbyStatus",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "RECEBIDA",
+                "EM_DIAGNOSTICO",
+                "AGUARDANDO_APROVACAO",
+                "EM_EXECUCAO",
+                "FINALIZADA",
+                "ENTREGUE",
+                "CANCELADA"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/service-orders/report/average-time": {
+      "get": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Tempo médio de execução dos serviços",
+        "operationId": "averageExecutionTime",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.application.usecase.AverageExecutionTimeUseCase.AverageTimeResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/customers/document/{document}": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Buscar cliente por CPF/CNPJ",
+        "operationId": "filterByDocument",
+        "parameters": [
+          {
+            "name": "document",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/consult/service-order/{number}": {
+      "get": {
+        "tags": [
+          "Consulta Pública"
+        ],
+        "summary": "Consultar status da Ordem de serviço pelo número  (público, sem login necessário)",
+        "operationId": "consultStatus",
+        "parameters": [
+          {
+            "name": "number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.StatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/budget/{token}/refuse": {
+      "get": {
+        "tags": [
+          "Orçamento Público"
+        ],
+        "summary": "O Cliente recusa o orçamento via link do e-mail",
+        "operationId": "refuse",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/budget/{token}/approve": {
+      "get": {
+        "tags": [
+          "Orçamento Público"
+        ],
+        "summary": "Cliente aprova o orçamendo via link do e-mail",
+        "operationId": "approve",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Request": {
+        "type": "object",
+        "properties": {
+          "plate": {
+            "type": "string",
+            "minLength": 1
+          },
+          "make": {
+            "type": "string",
+            "minLength": 1
+          },
+          "model": {
+            "type": "string",
+            "minLength": 1
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "color": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "customerId",
+          "make",
+          "model",
+          "plate",
+          "year"
+        ]
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.VehicleDTO.Response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "plate": {
+            "type": "string"
+          },
+          "make": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "ano": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "color": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "customerName": {
+            "type": "string"
+          }
+        }
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Request": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string"
+          },
+          "basePrice": {
+            "type": "number"
+          },
+          "estimedTimeInMinutes": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "basePrice",
+          "name"
+        ]
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.ServiceDTO.Response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "basePrice": {
+            "type": "number"
+          },
+          "estimedTimeInminutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Request": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "unitPrice": {
+            "type": "number"
+          },
+          "quantityStock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minStock": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "name",
+          "unitPrice"
+        ]
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.PartDTO.Response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "unitPrice": {
+            "type": "number"
+          },
+          "quantityStock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minStock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "criticStock": {
+            "type": "boolean"
+          }
+        }
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Request": {
+        "type": "object",
+        "properties": {
+          "document": {
+            "type": "string",
+            "minLength": 1
+          },
+          "documentType": {
+            "type": "string",
+            "enum": [
+              "CPF",
+              "CNPJ"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "document",
+          "documentType",
+          "name"
+        ]
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.CustomerDTO.Response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "document": {
+            "type": "string"
+          },
+          "documentType": {
+            "type": "string",
+            "enum": [
+              "CPF",
+              "CNPJ"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.PartItemRequest": {
+        "type": "object",
+        "properties": {
+          "partId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "partId",
+          "quantity"
+        ]
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Request": {
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "vehicleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "serviceIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.PartItemRequest"
+            }
+          },
+          "observations": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "customerId",
+          "serviceIds",
+          "vehicleId"
+        ]
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.CustomerResume": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "document": {
+            "type": "string"
+          }
+        }
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.PartItemResponse": {
+        "type": "object",
+        "properties": {
+          "partId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "partName": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unitPriceApplied": {
+            "type": "number"
+          },
+          "subtotal": {
+            "type": "number"
+          }
+        }
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.Response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "number": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "RECEBIDA",
+              "EM_DIAGNOSTICO",
+              "AGUARDANDO_APROVACAO",
+              "EM_EXECUCAO",
+              "FINALIZADA",
+              "ENTREGUE",
+              "CANCELADA"
+            ]
+          },
+          "totalValue": {
+            "type": "number"
+          },
+          "observations": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deliveryDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "executionTimeInMinutes": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.CustomerResume"
+          },
+          "vehicle": {
+            "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.VehicleResume"
+          },
+          "services": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.ServiceItemResponse"
+            }
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.PartItemResponse"
+            }
+          }
+        }
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.ServiceItemResponse": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "appliedPrice": {
+            "type": "number"
+          }
+        }
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.VehicleResume": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "plate": {
+            "type": "string"
+          },
+          "Make": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          }
+        }
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.LinkPartRequest": {
+        "type": "object",
+        "properties": {
+          "partId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "partId",
+          "quantity"
+        ]
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.AuthDTO.LoginRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 1
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "password",
+          "username"
+        ]
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.AuthDTO.TokenResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "expiracaoMs": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.NextStatusRequest": {
+        "type": "object",
+        "properties": {
+          "newStatus": {
+            "type": "string",
+            "enum": [
+              "RECEBIDA",
+              "EM_DIAGNOSTICO",
+              "AGUARDANDO_APROVACAO",
+              "EM_EXECUCAO",
+              "FINALIZADA",
+              "ENTREGUE",
+              "CANCELADA"
+            ]
+          }
+        },
+        "required": [
+          "newStatus"
+        ]
+      },
+      "com.pedrocmoreira.garagesystem.application.usecase.AverageExecutionTimeUseCase.AverageTimeResult": {
+        "type": "object",
+        "properties": {
+          "totalCompletedServiceOrders": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "avarageTimeInMinutes": {
+            "type": "number",
+            "format": "double"
+          },
+          "avarageTimeInHours": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "com.pedrocmoreira.garagesystem.presentation.dto.ServiceOrderDTO.StatusResponse": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "RECEBIDA",
+              "EM_DIAGNOSTICO",
+              "AGUARDANDO_APROVACAO",
+              "EM_EXECUCAO",
+              "FINALIZADA",
+              "ENTREGUE",
+              "CANCELADA"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completionDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "name": "bearerAuth",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
